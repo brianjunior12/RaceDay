@@ -1,0 +1,37 @@
+name: Validate RaceDay Planning
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check docs folder
+        run: |
+          test -d docs
+          echo "docs folder exists"
+
+      - name: Check required planning files
+        run: |
+          test -f docs/erd.png
+          test -f docs/endpoint-plan.pdf
+          test -f docs/database.sql
+          echo "All required planning files exist"
+
+      - name: Check SQL file is not empty
+        run: |
+          test -s docs/database.sql
+          echo "SQL script exists and is not empty"
+
+      - name: Validation successful
+        run: echo "RaceDay planning repository validation passed!"
