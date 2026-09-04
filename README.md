@@ -47,4 +47,4 @@ GitHub Actions is used to validate the project repository.
 ## Video Presentation
 
 YouTube video:
-[Insert your YouTube link here]
+(https://youtu.be/rncqGdzAWPI)
