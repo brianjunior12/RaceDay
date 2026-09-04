@@ -22,7 +22,7 @@ The database consists of 6 core tables:
 
 ### Entity Relationship Diagram
 
-![ERD](docs/ERD.png)
+[ERD](docs/ERD.png)
 
 ##  API Endpoints
 
@@ -59,7 +59,7 @@ The SQL script includes:
 
 This repository uses GitHub Actions to validate the project structure automatically.
 
-![CI/CD Build Passing](docs/build-passing.png)
+[CI/CD Build Passing](docs/build-passing.png)
 
 The workflow validates:
 -  Required `/docs` folder exists
@@ -68,7 +68,7 @@ The workflow validates:
 -  SQL Script is present with CREATE TABLE and INSERT statements
 -  README.md exists
 
-## 📝 Video Walkthrough
+##  Video Walkthrough
 
 (https://youtu.be/rncqGdzAWPI)
 
