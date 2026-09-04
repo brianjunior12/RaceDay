@@ -42,7 +42,7 @@ CREATE TABLE Category (
     FOREIGN KEY (EventID) REFERENCES [Event](EventID)
 );
 
---create the table for Enrolmet
+--creating the table for Enrolmet
 CREATE TABLE Enrolment (
     EnrolmentID INT IDENTITY(1,1) PRIMARY KEY,
     ParticipantID INT NOT NULL,
