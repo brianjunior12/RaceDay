@@ -1,6 +1,7 @@
 --create database for RaceDay
 CREATE DATABASE RaceDay;
 
+
 USE RaceDay
 
 --create table for Role    
@@ -94,8 +95,8 @@ INSERT INTO Category (CategoryName, CategoryType, EventID) VALUES
 
 -- 5. Enrolments (Participants 3 to 7)
 INSERT INTO Enrolment (ParticipantID, EnrolmentDate, EventID, CategoryID, Enrolment_status) VALUES
-(3, '2026-09-01 08:30:00', 1, 1, 'Confirmed'),
-(4, '2026-09-02 09:15:00', 1, 1, 'Confirmed'),
+(3, '2026-09-01 08:30:00', 1, 1, 'Confirmed'),), -- EnrolmentID 1 (Thabo -> Soweto Marathon)
+(4, '2026-09-02 09:15:00', 1, 1, 'Confirmed'),-- EnrolmentID 2 (Jessica -> Soweto Marathon)
 (5, '2026-09-03 10:00:00', 2, 2, 'Pending'),  
 (6, '2026-09-04 11:45:00', 3, 3, 'Confirmed'),
 (7, '2026-09-05 14:20:00', 4, 4, 'Pending');  
