@@ -9,6 +9,7 @@ CREATE TABLE [Role] (
     RoleName VARCHAR(100) NOT NULL UNIQUE
 );
 
+--create a table for user
 CREATE TABLE [User] (
     UserId INT IDENTITY(1,1) PRIMARY KEY,
     FirstName VARCHAR(100) NOT NULL,
