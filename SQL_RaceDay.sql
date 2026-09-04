@@ -20,6 +20,7 @@ CREATE TABLE [User] (
     FOREIGN KEY (RoleID) REFERENCES [Role](RoleID)
 );
 
+--create the table for event
 CREATE TABLE [Event] (
     EventID INT IDENTITY(1,1) PRIMARY KEY,
     EventName VARCHAR(100) NOT NULL,
