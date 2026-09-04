@@ -33,6 +33,7 @@ CREATE TABLE [Event] (
     FOREIGN KEY (organiserID) REFERENCES [User](UserId)
 );
 
+--create a table for category
 CREATE TABLE Category (
     CategoryID INT IDENTITY(1,1) PRIMARY KEY,
     CategoryName VARCHAR(100) NOT NULL,
