@@ -3,6 +3,7 @@ CREATE DATABASE RaceDay;
 
 USE RaceDay
 
+--create table for Role    
 CREATE TABLE [Role] (
     RoleID INT IDENTITY(1,1) PRIMARY KEY,
     RoleName VARCHAR(100) NOT NULL UNIQUE
