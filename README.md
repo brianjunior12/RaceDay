@@ -77,7 +77,7 @@ The video covers:
 - API endpoint planning rationale
 - SQL script walkthrough and live execution
 
-##  Tags
+## Tags
 
 `sql-server`, `database-design`, `rest-api`, `entity-relationship-diagram`, `github-actions`, `ci-cd`
 
