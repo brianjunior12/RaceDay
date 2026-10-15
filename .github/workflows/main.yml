@@ -1,3 +1,4 @@
+
 name: Validate RaceDay Planning
 
 on:
@@ -16,14 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check docs folder
-        run: |
-          test -f docs/ERD_RaceDay.pdf
-          echo "docs folder exists"
-
       - name: Check required planning files
         run: |
-          test -f docs/erd.png
+          test -f docs/ERD_RaceDay.pdf
           test -f docs/endpoint-plan.pdf
           test -f docs/database.sql
           echo "All required planning files exist"
