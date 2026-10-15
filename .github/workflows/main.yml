@@ -18,7 +18,7 @@ jobs:
 
       - name: Check docs folder
         run: |
-          test -d docs
+          test -f docs/ERD_RaceDay.pdf
           echo "docs folder exists"
 
       - name: Check required planning files
