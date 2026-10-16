@@ -1,83 +1,103 @@
 # RaceDay Event Management System
 
-##  Project Overview
+## 1. Project Overview
 
-RaceDay is a comprehensive event management system designed for race organizers to manage running and cycling events. The system supports role-based access control with two primary roles:
+RaceDay is an ASP.NET Core Web API built with .NET 8 for managing running and cycling events.
 
-- **Organisers**: Create and manage events, categories, and results
-- **Participants**: Browse events, enrol in categories, and view results
+The API supports two roles:
 
-## Database Schema
+* **Organisers:** Manage events, categories, enrolments, and race results.
+* **Participants:** Browse events, enrol in categories, and view their enrolments and results.
 
-The database consists of 6 core tables:
+## 2. Technologies Used
 
-| Table | Description | Primary Key | Foreign Keys |
-|-------|-------------|-------------|--------------|
-| Role | User roles (Organiser/Participant) | RoleID | - |
-| User | System users | UserId | RoleID → Role |
-| Event | Race events | EventID | organiserID → User |
-| Category | Event categories | CategoryID | EventID → Event |
-| Enrolment | Participant enrolments | EnrolmentID | ParticipantID → User, EventID → Event, CategoryID → Category |
-| Results | Race results | ResultsID | EnrolmentID → Enrolment |
+* ASP.NET Core Web API (.NET 8)
+* Entity Framework Core
+* SQL Server
+* JWT Bearer authentication
+* BCrypt password hashing
+* Swagger / OpenAPI
+* xUnit automated testing
+* GitHub Actions CI/CD
 
-### Entity Relationship Diagram
+## 3. Database Schema
 
-[ERD](docs/ERD.png)
+The database contains the following core tables:
 
-##  API Endpoints
+| Table     | Purpose                       |
+| --------- | ----------------------------- |
+| Role      | Stores user roles             |
+| User      | Stores user accounts          |
+| Event     | Stores race events            |
+| Category  | Stores event categories       |
+| Enrolment | Stores participant enrolments |
+| Results   | Stores race results           |
 
-The RESTful API provides full CRUD operations for all entities. See the complete [API Endpoint Plan](docs/API-Endpoint-Plan.md) for details.
+See the [Entity Relationship Diagram](docs/ERD_RaceDay.pdf) and [API Endpoint Plan](docs/endpoint-plan.pdf).
 
-Key endpoints include:
-- Authentication: `/api/auth/register`, `/api/auth/login`
-- Events: CRUD operations at `/api/events`
-- Categories: Manage event categories
-- Enrolments: Enrol and manage participation
-- Results: Record and view race results
+## 4. API Endpoints
 
-##  Setup Instructions
+The API includes the following endpoint groups:
 
-### Prerequisites
-- SQL Server (any edition)
-- SQL Server Management Studio (SSMS)
+* **Authentication:** `/api/auth/register`, `/api/auth/login`
+* **Events:** `/api/events`
+* **Categories:** `/api/categories`
+* **Enrolments:** `/api/enrolments`
+* **Results:** `/api/results`
 
-### Database Setup
-1. Clone this repository
-2. Open SSMS and run `docs/RaceDay-Schema.sql`
-3. Verify the database and tables are created successfully
+The API uses role-based authorization to restrict access to protected operations.
 
-### Sample Data
-The SQL script includes:
-- 2 Organisers
-- 5 Participants
-- 3 Events
-- Event categories
-- Sample enrolments
-- Sample results
+## 5. Prerequisites
 
-##  CI/CD Pipeline
+Install the following before running the project:
 
-This repository uses GitHub Actions to validate the project structure automatically.
+* .NET 8 SDK
+* SQL Server or SQL Server LocalDB
+* Visual Studio 2022 (recommended)
 
-[CI/CD Build Passing](docs/build-passing.png)
+## 6. Database Setup
 
-The workflow validates:
--  Required `/docs` folder exists
--  ERD file is present (PNG or PDF)
--  API Endpoint Plan is present (MD or PDF)
--  SQL Script is present with CREATE TABLE and INSERT statements
--  README.md exists
+1. Open SQL Server Management Studio or another SQL Server client.
+2. Open the [`database.sql`](database.sql) script in the repository root.
+3. Execute the script to create and populate the database.
+4. Check the connection string in `RaceDay.API/appsettings.json` and update it for your SQL Server instance if necessary.
 
-##  Video Walkthrough
+Do not commit passwords, private keys, or other secrets to the repository.
 
-(https://youtu.be/rncqGdzAWPI)
+## 7. Running the API
 
-The video covers:
-- ERD design decisions and relationships
-- API endpoint planning rationale
-- SQL script walkthrough and live execution
+1. Open `RaceDay.API/RaceDay.API.sln` in Visual Studio 2022.
+2. Restore the NuGet packages.
+3. Confirm the database connection string is correct.
+4. Set `RaceDay.API` as the startup project.
+5. Run the project.
 
-## Tags
+When Swagger is enabled in the development environment, open the Swagger URL displayed in the application output to explore and test the endpoints.
 
-`sql-server`, `database-design`, `rest-api`, `entity-relationship-diagram`, `github-actions`, `ci-cd`
+## 8. Authentication
 
+1. Register an account using `/api/auth/register`.
+2. Log in using `/api/auth/login`.
+3. Copy the JWT token returned by the login endpoint.
+4. In Swagger, select **Authorize** and enter the token using the format expected by the Bearer authentication configuration.
+5. Use the token to test protected endpoints according to the account's role.
+
+## 9. Automated Tests
+
+The automated tests are located in `RaceDay.API.Tests`.
+
+Run the tests from the solution directory using:
+
+```bash
+dotnet test RaceDay.API.Tests/RaceDay.API.Tests.csproj
+```
+
+## 10. CI/CD
+
+GitHub Actions workflows validate the repository and build and test the API. Check the **Actions** tab in GitHub for the latest workflow results.
+
+Repository: [RaceDay on GitHub](https://github.com/brianjunior12/RaceDay)
+
+## 11. Video Walkthrough
+
+[View the RaceDay video walkthrough](https://youtu.be/rncqGdzAWPI)
