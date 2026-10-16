@@ -1,5 +1,4 @@
 
-
 name: Validate RaceDay Planning
 
 on:
@@ -18,34 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: List repository files
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Repository root:"
-          ls -la
-          echo "Documentation files:"
-          ls -la docs || true
-
       - name: Check ERD PDF
-        run: |
-          test -f docs/ERD_RaceDay.pdf
-          echo "ERD PDF exists"
+        run: test -s docs/ERD_RaceDay.pdf
 
       - name: Check endpoint plan
-        run: |
-          test -f docs/endpoint-plan.pdf
-          echo "Endpoint plan exists"
+        run: test -s docs/endpoint-plan.pdf
 
       - name: Check database SQL
-        run: |
-          test -f docs/database.sql
-          echo "Database SQL file exists"
-
-      - name: Check SQL file is not empty
-        run: |
-          test -s docs/database.sql
-          echo "SQL script exists and is not empty"
+        run: test -s database.sql
 
       - name: Validation successful
         run: echo "RaceDay planning repository validation passed!"
