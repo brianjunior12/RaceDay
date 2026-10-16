@@ -17,12 +17,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check required planning files
-        run: |
-          test -f docs/ERD_RaceDay.pdf
-          test -f docs/endpoint-plan.pdf
-          test -f docs/database.sql
-          echo "All required planning files exist"
+      - name: Check ERD PDF
+        run: test -f docs/ERD_RaceDay.pdf
+
+      - name: Check endpoint plan
+        run: test -f docs/endpoint-plan.pdf
+
+      - name: Check database SQL
+        run: test -f docs/database.sql
 
       - name: Check SQL file is not empty
         run: |
