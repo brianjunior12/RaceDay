@@ -1,58 +1,64 @@
-using System.Globalization;
-using Microsoft.AspNetCore.Mvc;
-using raceday_mvc.Services;
-
-//same number and date formats when running locally and inside docker
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
-CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using raceday_api.database;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews(options =>
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
 {
-    //every post form must carry an anti-forgery token
-    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+    //show the descriptions written above each method in swagger
+    var xml = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+    if (File.Exists(xml)) c.IncludeXmlComments(xml);
 });
 
-builder.Services.AddHttpContextAccessor();
+//connect to the localdb database raceday (instance api_web) using the connection string
+builder.Services.AddDbContext<AppDbContext>(o =>
+    o.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//session management keeps the user's logged in state and role on every page
+//Azure Blob Storage, used for event banners and profile pictures
+builder.Services.AddSingleton<i_blob_storage, blob_storage>();
+
+//session management keeps the user's logged in state and role
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
+builder.Services.AddSession(o =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
-//the only way this project gets data: calling the Part 2 API
-builder.Services.AddHttpClient<api_client>((services, client) =>
-{
-    var settings = services.GetRequiredService<IConfiguration>();
-    client.BaseAddress = new Uri(settings["ApiSettings:BaseUrl"] ?? "http://localhost:5080");
-    client.Timeout = TimeSpan.FromSeconds(30);
-})
-.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-{
-    UseCookies = false,        //the session cookie of the API is kept in the mvc session instead
-    AllowAutoRedirect = false
+    o.IdleTimeout = TimeSpan.FromMinutes(30);
+    o.Cookie.HttpOnly = true;
+    o.Cookie.IsEssential = true;
 });
 
 var app = builder.Build();
 
-//friendly error pages, the user never sees a raw error
-app.UseExceptionHandler("/Home/Error");
-app.UseStatusCodePagesWithReExecute("/Home/Error", "?code={0}");
+//link the api to the RaceDayDB database before it starts taking requests
+using (var scope = app.Services.CreateScope())
+{
+    db_setup.link_database(scope.ServiceProvider.GetRequiredService<AppDbContext>(), app.Logger);
+}
 
-app.UseStaticFiles();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-app.UseRouting();
+//while developing the mvc project calls the api over plain http, so only redirect to https outside development
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseSession();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
+
+public partial class Program { } // lets the test project host the API
