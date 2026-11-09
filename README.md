@@ -201,17 +201,6 @@ GitHub Actions (`.github/workflows/dotnet.yml`) runs on every push. It restores 
 
 **Latest run:**
 
-![CI passing](docs/ci-passing.png)
-
-## Screenshots
-
-| Page | Screenshot |
-|---|---|
-| Login | ![Login](docs/login.png) |
-| Organiser dashboard | ![Dashboard](docs/dashboard.png) |
-| Event with banner | ![Event](docs/event.png) |
-| My events | ![My events](docs/my-events.png) |
-| My results | ![My results](docs/my-results.png) |
 
 ## Demo video
 
